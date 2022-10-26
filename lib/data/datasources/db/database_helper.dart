@@ -44,8 +44,7 @@ class DatabaseHelper {
 
   Future<int> removeProject(ProjectTable project) async {
     final db = await database;
-    return await db!
-        .delete(_tblProject, where: 'id = ?', whereArgs: [project.id]);
+    return await db!.delete(_tblProject, where: 'id = ?');
   }
 
   Future<List<Map<String, dynamic>>> getListProject() async {
