@@ -29,7 +29,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $_tblProject (
-        id INTEGER PRIMARY KEY,
+        id TEXT PRIMARY KEY,
         title TEXT,
         subtitle TEXT,
         date TEXT
@@ -44,7 +44,8 @@ class DatabaseHelper {
 
   Future<int> removeProject(ProjectTable project) async {
     final db = await database;
-    return await db!.delete(_tblProject, where: 'id = ?');
+    return await db!
+        .delete(_tblProject, where: 'title = ?', whereArgs: [project.title]);
   }
 
   Future<List<Map<String, dynamic>>> getListProject() async {

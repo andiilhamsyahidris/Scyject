@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:scyject/domain/entities/project.dart';
 
 class ProjectTable extends Equatable {
-  // final int id;
-  final String? title;
-  final String? subtitle;
-  final String? date;
+  // final String id;
+  final String title;
+  final String subtitle;
+  final String date;
 
   const ProjectTable({
     // required this.id,
