@@ -77,98 +77,188 @@ class ProjectPage extends StatelessWidget {
                                 crossAxisCount: 2),
                         itemBuilder: (context, index) {
                           final project = result[index];
-                          return InkWell(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, DetailScreen.route_name);
-                            },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 25.0, horizontal: 15.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  gradient: const LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      kDeepBlue,
-                                      kDarkBlue,
-                                      kVeryDarkBlue,
-                                    ],
-                                  ),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          project.date,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(color: Colors.white70),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              context
-                                                  .read<ProjectBloc>()
-                                                  .add(UnsaveProject(project));
-                                            },
-                                            padding: EdgeInsets.zero,
-                                            constraints: const BoxConstraints(),
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: Colors.white70,
-                                              size: 15,
-                                            ))
+                          if (project == result.first) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, DetailScreen.route_name);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 25.0, horizontal: 15.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    gradient: const LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        kDeepBlue,
+                                        kDarkBlue,
+                                        kVeryDarkBlue,
                                       ],
                                     ),
-                                    Text(
-                                      project.title,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      project.subtitle,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(color: Colors.white70),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        'Progress',
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            project.date,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(
+                                                    color: Colors.white70),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                context.read<ProjectBloc>().add(
+                                                    UnsaveProject(project));
+                                              },
+                                              padding: EdgeInsets.zero,
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Colors.white70,
+                                                size: 15,
+                                              ))
+                                        ],
+                                      ),
+                                      Text(
+                                        project.title,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        project.subtitle,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
                                             .copyWith(color: Colors.white70),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    const LinearProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                      value: 0.5,
-                                      valueColor:
-                                          AlwaysStoppedAnimation(kYellow),
-                                    ),
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'Progress',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(color: Colors.white70),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10.0,
+                                      ),
+                                      const LinearProgressIndicator(
+                                        backgroundColor: Colors.white,
+                                        value: 0.5,
+                                        valueColor:
+                                            AlwaysStoppedAnimation(kYellow),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
+                            );
+                          } else {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, DetailScreen.route_name);
+                              },
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 25.0, horizontal: 15.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: kSmoothBlue,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            project.date,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall!
+                                                .copyWith(color: kDeepBlue),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                context.read<ProjectBloc>().add(
+                                                    UnsaveProject(project));
+                                              },
+                                              padding: EdgeInsets.zero,
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: kDeepBlue,
+                                                size: 15,
+                                              ))
+                                        ],
+                                      ),
+                                      Text(
+                                        project.title,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                                color: kDeepBlue,
+                                                fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        project.subtitle,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .copyWith(color: kDeepBlue),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'Progress',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(color: kDeepBlue),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10.0,
+                                      ),
+                                      const LinearProgressIndicator(
+                                        backgroundColor: Colors.white,
+                                        value: 0.5,
+                                        valueColor:
+                                            AlwaysStoppedAnimation(kDarkBlue),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                         },
                         itemCount: result.length,
                       ),

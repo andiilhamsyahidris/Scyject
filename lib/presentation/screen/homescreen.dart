@@ -17,7 +17,6 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  final nomorProject = TextEditingController();
   final nameProject = TextEditingController();
   final descProject = TextEditingController();
   final deadlineProject = TextEditingController();
@@ -37,7 +36,6 @@ class _HomescreenState extends State<Homescreen> {
     nameProject.dispose();
     descProject.dispose();
     deadlineProject.dispose();
-    nomorProject.dispose();
     super.dispose();
   }
 

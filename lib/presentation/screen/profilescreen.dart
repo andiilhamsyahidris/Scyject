@@ -147,19 +147,6 @@ class ProfileScreen extends StatelessWidget {
                                               .bodySmall!
                                               .copyWith(color: kDeepBlue),
                                         ),
-                                        IconButton(
-                                            onPressed: () {
-                                              context
-                                                  .read<ProjectBloc>()
-                                                  .add(UnsaveProject(project));
-                                            },
-                                            padding: EdgeInsets.zero,
-                                            constraints: const BoxConstraints(),
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: kDeepBlue,
-                                              size: 15,
-                                            ))
                                       ],
                                     ),
                                     Text(
