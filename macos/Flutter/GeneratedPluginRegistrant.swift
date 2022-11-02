@@ -5,8 +5,12 @@
 import FlutterMacOS
 import Foundation
 
-import sqflite_sqlcipher
+import cloud_firestore
+import firebase_core
+import firebase_database
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  SqfliteSqlCipherPlugin.register(with: registry.registrar(forPlugin: "SqfliteSqlCipherPlugin"))
+  FLTFirebaseFirestorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseFirestorePlugin"))
+  FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
+  FLTFirebaseDatabasePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseDatabasePlugin"))
 }

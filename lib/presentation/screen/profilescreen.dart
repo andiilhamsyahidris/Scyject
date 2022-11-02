@@ -1,9 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scyject/common/constant.dart';
-import 'package:scyject/common/custom_information.dart';
-import 'package:scyject/presentation/bloc/list_project_bloc/list_project_bloc.dart';
-import 'package:scyject/presentation/bloc/project_bloc/project_bloc.dart';
 import 'package:scyject/presentation/screen/detailscreen.dart';
 import 'package:scyject/presentation/screen/notificationscreen.dart';
 
@@ -95,28 +92,21 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              BlocBuilder<ListProjectBloc, ListProjectState>(
-                builder: (context, state) {
-                  if (state is ListProjectLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is ListProjectError) {
-                    return const Center(
-                      child: CustomInformation(
-                          imgPath: 'assets/error.svg',
-                          title: 'Ups Maaf Ada Kesalahan',
-                          subtitle: 'Tunggu Sebentar ya'),
-                    );
-                  } else if (state is ListProjectHasData) {
-                    final result = state.project;
-
-                    return SizedBox(
-                      height: 170,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('project')
+                      .orderBy('date', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data!;
+                      return GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
                         itemBuilder: (context, index) {
-                          final project = result[index];
                           return InkWell(
                             onTap: () {
                               Navigator.pushNamed(
@@ -126,7 +116,6 @@ class ProfileScreen extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               child: Container(
-                                width: MediaQuery.of(context).size.width - 40,
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 25.0, horizontal: 15.0),
                                 decoration: BoxDecoration(
@@ -141,16 +130,33 @@ class ProfileScreen extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          project.date,
+                                          data.docs[index]['date'],
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
                                               .copyWith(color: kDeepBlue),
                                         ),
+                                        IconButton(
+                                          onPressed: () {
+                                            final docProject = FirebaseFirestore
+                                                .instance
+                                                .collection('project')
+                                                .doc(data.docs[index]['id']);
+
+                                            docProject.delete();
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          constraints: const BoxConstraints(),
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: kDeepBlue,
+                                            size: 15,
+                                          ),
+                                        )
                                       ],
                                     ),
                                     Text(
-                                      project.title,
+                                      data.docs[index]['title'],
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium!
@@ -159,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      project.subtitle,
+                                      data.docs[index]['subtitle'],
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall!
@@ -190,18 +196,14 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        itemCount: result.length,
-                      ),
-                    );
-                  } else {
+                        itemCount: data.docs.length,
+                      );
+                    }
                     return const Center(
-                      child: CustomInformation(
-                          imgPath: 'assets/empty.svg',
-                          title: 'Daftar Proyek Masih Kosong',
-                          subtitle: 'Silahkan Daftarkan Proyek'),
+                      child: CircularProgressIndicator(),
                     );
-                  }
-                },
+                  },
+                ),
               ),
             ],
           ),

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "572149479964",
+    "project_id": "scyject",
+    "storage_bucket": "scyject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572149479964:android:61d3c0b39e5ee626cdbdd9",
+        "android_client_info": {
+          "package_name": "com.example.scyject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572149479964-qss4uf1vp3auqi0ond9d6gch7t6epft2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjVwLZ7d8JcqZOOR-sUkLstWM2Y5eXyII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572149479964-qss4uf1vp3auqi0ond9d6gch7t6epft2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "572149479964-1qpb44ntn9klb4qdmco8gkar3harktod.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.scyject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

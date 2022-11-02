@@ -1,10 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:scyject/common/constant.dart';
-import 'package:scyject/domain/entities/project.dart';
-import 'package:scyject/presentation/bloc/list_project_bloc/list_project_bloc.dart';
-import 'package:scyject/presentation/bloc/project_bloc/project_bloc.dart';
+import 'package:scyject/data/models/project_table.dart';
 import 'package:scyject/presentation/pages/homepage.dart';
 import 'package:scyject/presentation/pages/project_page.dart';
 import 'package:scyject/presentation/provider/bottom_nav_provider.dart';
@@ -26,9 +24,6 @@ class _HomescreenState extends State<Homescreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<ListProjectBloc>().add(FetchListProject()),
-    );
   }
 
   @override
@@ -163,17 +158,18 @@ class _HomescreenState extends State<Homescreen> {
                         padding: const EdgeInsets.only(top: 10),
                         child: ElevatedButton(
                           onPressed: () {
-                            var project = Project(
-                                // id: nomorProject.text,
+                            final proj = ProjectTable(
                                 title: nameProject.text,
                                 subtitle: descProject.text,
                                 date: deadlineProject.text);
+                            // var project = Project(
+                            //     // id: nomorProject.text,
+                            //     title: nameProject.text,
+                            //     subtitle: descProject.text,
+                            //     date: deadlineProject.text);
 
                             if (_formKey.currentState!.validate()) {
-                              context.read<ProjectBloc>().add(
-                                    InsertProject(project),
-                                  );
-
+                              createProject(proj);
                               Navigator.pop(context);
                             }
                           },
@@ -197,6 +193,13 @@ class _HomescreenState extends State<Homescreen> {
         color: kDeepBlue,
       ),
     );
+  }
+
+  Future createProject(ProjectTable projectTable) async {
+    final docProject = FirebaseFirestore.instance.collection('project').doc();
+    projectTable.id = docProject.id;
+    final json = projectTable.toJson();
+    await docProject.set(json);
   }
 
   BottomNavigationBar _buildBottomNav(BottomNavProvider bottomNavProvider) {
