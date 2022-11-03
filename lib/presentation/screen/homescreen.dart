@@ -102,19 +102,6 @@ class _HomescreenState extends State<Homescreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      // TextFormField(
-                      //   decoration: const InputDecoration(
-                      //     labelText: 'Nomor',
-                      //     icon: Icon(Icons.access_time),
-                      //   ),
-                      //   controller: deadlineProject,
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Nomor tidak boleh kosong';
-                      //     }
-                      //     return null;
-                      //   },
-                      // ),
                       TextFormField(
                         decoration: const InputDecoration(
                           labelText: 'Nama Proyek',

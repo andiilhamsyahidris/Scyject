@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scyject/common/constant.dart';
-import 'package:scyject/common/custom_information.dart';
 import 'package:scyject/common/datetime_helper.dart';
-import 'package:scyject/data/models/project_table.dart';
 import 'package:scyject/presentation/screen/detailscreen.dart';
 
 class Homepage extends StatefulWidget {
@@ -61,7 +58,10 @@ class _HomepageState extends State<Homepage> {
                         return InkWell(
                           onTap: () {
                             Navigator.pushNamed(
-                                context, DetailScreen.route_name);
+                              context,
+                              DetailScreen.route_name,
+                              arguments: data.docs[index]['id'],
+                            );
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(

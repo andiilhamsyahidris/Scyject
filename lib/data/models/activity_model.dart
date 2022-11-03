@@ -1,29 +1,22 @@
-// import 'package:scyject/domain/entities/project.dart';
-
-class ProjectTable {
+class ActivityModel {
   String id;
   final String title;
-  final String subtitle;
   final String date;
 
-  ProjectTable({
+  ActivityModel({
     this.id = '',
     required this.title,
-    required this.subtitle,
     required this.date,
   });
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
-        'subtitle': subtitle,
         'date': date,
       };
-
-  static ProjectTable fromJson(Map<String, dynamic> json) => ProjectTable(
+  static ActivityModel fromJson(Map<String, dynamic> json) => ActivityModel(
         id: json['id'],
         title: json['title'],
-        subtitle: json['subtitle'],
         date: json['date'],
       );
 }

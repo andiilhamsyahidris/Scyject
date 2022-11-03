@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scyject/common/constant.dart';
 import 'package:scyject/common/utils.dart';
 import 'package:scyject/firebase_options.dart';
@@ -8,7 +7,6 @@ import 'package:scyject/presentation/provider/bottom_nav_provider.dart';
 import 'package:scyject/presentation/screen/detailscreen.dart';
 import 'package:scyject/presentation/screen/homescreen.dart';
 import 'package:provider/provider.dart';
-import 'package:scyject/injection.dart' as di;
 import 'package:scyject/presentation/screen/notificationscreen.dart';
 import 'package:scyject/presentation/screen/profilescreen.dart';
 
@@ -17,7 +15,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  di.init();
   runApp(const MyApp());
 }
 
@@ -42,7 +39,11 @@ class MyApp extends StatelessWidget {
             case '/home':
               return MaterialPageRoute(builder: (_) => Homescreen());
             case DetailScreen.route_name:
-              return MaterialPageRoute(builder: (_) => DetailScreen());
+              final id = settings.arguments as String;
+              return MaterialPageRoute(
+                builder: (_) => DetailScreen(id: id),
+                settings: settings,
+              );
             case ProfileScreen.route_name:
               return MaterialPageRoute(builder: (_) => ProfileScreen());
             case NotificationScreen.route_name:
