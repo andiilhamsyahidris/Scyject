@@ -21,8 +21,6 @@ class _DetailScreenState extends State<DetailScreen> {
   final deadlineActivity = TextEditingController();
   final _formkey = GlobalKey<FormState>();
 
-  bool value = false;
-
   @override
   void dispose() {
     nameActivity.dispose();
@@ -87,7 +85,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                 onPressed: () {
                                   final act = ActivityModel(
                                       title: nameActivity.text,
-                                      date: deadlineActivity.text);
+                                      date: deadlineActivity.text,
+                                      value: false);
 
                                   if (_formkey.currentState!.validate()) {
                                     createActivity(act);
@@ -123,8 +122,10 @@ class _DetailScreenState extends State<DetailScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final data = snapshot.data!;
+
             return ListView.builder(
               itemBuilder: (context, index) {
+                var valu = data.docs[index]['value'];
                 return Slidable(
                   groupTag: 1,
                   startActionPane: ActionPane(
@@ -145,65 +146,27 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ],
                   ),
-                  child: Card(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 25.0,
-                        horizontal: 15.0,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: kSmoothBlue,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data.docs[index]['title'],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(
-                                        color: kDeepBlue,
-                                        fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 8.0,
-                              ),
-                              Text(
-                                data.docs[index]['date'],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(color: kDeepBlue),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.notifications,
-                                  color: kDeepBlue,
-                                ),
-                              ),
-                              Checkbox(
-                                value: value,
-                                side: const BorderSide(color: kDeepBlue),
-                                onChanged: (value) {
-                                  setState(() {
-                                    this.value = value as bool;
-                                  });
-                                },
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                  child: CheckboxListTile(
+                    activeColor: kDeepBlue,
+                    dense: true,
+                    title: Text(
+                      data.docs[index]['title'],
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
                     ),
+                    subtitle: Text(
+                      data.docs[index]['date'],
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    value: valu,
+                    onChanged: (value) {
+                      setState(() {
+                        valu = value as bool;
+                      });
+                    },
+                    side: const BorderSide(color: kDeepBlue),
                   ),
                 );
               },

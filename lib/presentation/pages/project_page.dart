@@ -69,7 +69,10 @@ class ProjectPage extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               Navigator.pushNamed(
-                                  context, DetailScreen.route_name);
+                                context,
+                                DetailScreen.route_name,
+                                arguments: data.docs[index]['id'],
+                              );
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
