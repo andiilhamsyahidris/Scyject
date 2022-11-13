@@ -103,6 +103,7 @@ class ProfileScreen extends StatelessWidget {
                     if (snapshot.hasData) {
                       final data = snapshot.data!;
                       return GridView.builder(
+                        controller: ScrollController(keepScrollOffset: true),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2),
@@ -162,36 +163,20 @@ class ProfileScreen extends StatelessWidget {
                                       data.docs[index]['title'],
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium!
+                                          .titleLarge!
                                           .copyWith(
                                               color: kDeepBlue,
                                               fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
                                     ),
                                     Text(
                                       data.docs[index]['subtitle'],
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodySmall!
+                                          .bodyMedium!
                                           .copyWith(color: kDeepBlue),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        'Progress',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(color: kDeepBlue),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    const LinearProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                      value: 0.5,
-                                      valueColor:
-                                          AlwaysStoppedAnimation(kDarkBlue),
                                     ),
                                   ],
                                 ),

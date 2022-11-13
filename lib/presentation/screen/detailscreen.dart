@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -20,6 +22,8 @@ class _DetailScreenState extends State<DetailScreen> {
   final descActivity = TextEditingController();
   final deadlineActivity = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+
+  List valu = [];
 
   @override
   void dispose() {
@@ -84,11 +88,12 @@ class _DetailScreenState extends State<DetailScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   final act = ActivityModel(
-                                      title: nameActivity.text,
-                                      date: deadlineActivity.text,
-                                      value: false);
+                                    title: nameActivity.text,
+                                    date: deadlineActivity.text,
+                                  );
 
                                   if (_formkey.currentState!.validate()) {
+                                    _formkey.currentState!.reset();
                                     createActivity(act);
                                     Navigator.pop(context);
                                   }
@@ -120,12 +125,10 @@ class _DetailScreenState extends State<DetailScreen> {
             .collection('activity')
             .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data?.size != null) {
             final data = snapshot.data!;
-
             return ListView.builder(
               itemBuilder: (context, index) {
-                var valu = data.docs[index]['value'];
                 return Slidable(
                   groupTag: 1,
                   startActionPane: ActionPane(
@@ -151,19 +154,44 @@ class _DetailScreenState extends State<DetailScreen> {
                     dense: true,
                     title: Text(
                       data.docs[index]['title'],
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontWeight: FontWeight.w500, color: kDeepBlue),
                     ),
                     subtitle: Text(
                       data.docs[index]['date'],
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: kDarkBlue),
                     ),
-                    value: valu,
+                    value: valu.contains(index),
                     onChanged: (value) {
                       setState(() {
-                        valu = value as bool;
+                        if (valu.contains(index) && value == true) {
+                          valu.remove(index);
+                        } else {
+                          valu.add(index);
+                          Timer(const Duration(seconds: 2), () {
+                            final docAct = FirebaseFirestore.instance
+                                .collection('project')
+                                .doc(widget.id)
+                                .collection('activity')
+                                .doc(data.docs[index]['id']);
+                            docAct.delete();
+                            const snackBar = SnackBar(
+                              content: Text(
+                                'Data berhasil dihapus',
+                                style: TextStyle(color: Colors.black87),
+                              ),
+                              backgroundColor: kYellow,
+                              duration: Duration(milliseconds: 2000),
+                            );
+
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar);
+                          });
+                        }
                       });
                     },
                     side: const BorderSide(color: kDeepBlue),
@@ -172,12 +200,17 @@ class _DetailScreenState extends State<DetailScreen> {
               },
               itemCount: data.docs.length,
             );
+          } else if (snapshot is ConnectionState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
           return const Center(
             child: CustomInformation(
-                imgPath: 'assets/empty.svg',
-                title: 'Belum ada kegiatan nih',
-                subtitle: 'Tambahkan dulu ya'),
+              imgPath: 'assets/empty.svg',
+              title: 'Ups Aktivitas Belum Ada',
+              subtitle: 'Silahkan tambahkan dulu ya',
+            ),
           );
         },
       ),

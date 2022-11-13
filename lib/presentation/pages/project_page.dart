@@ -82,7 +82,15 @@ class ProjectPage extends StatelessWidget {
                                     vertical: 25.0, horizontal: 15.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30),
-                                  color: kSmoothBlue,
+                                  gradient: const LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      kDeepBlue,
+                                      kDarkBlue,
+                                      kVeryDarkBlue,
+                                    ],
+                                  ),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +104,7 @@ class ProjectPage extends StatelessWidget {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall!
-                                              .copyWith(color: kDeepBlue),
+                                              .copyWith(color: Colors.white54),
                                         ),
                                         IconButton(
                                           onPressed: () {
@@ -111,7 +119,7 @@ class ProjectPage extends StatelessWidget {
                                           constraints: const BoxConstraints(),
                                           icon: const Icon(
                                             Icons.delete,
-                                            color: kDeepBlue,
+                                            color: Colors.white,
                                             size: 15,
                                           ),
                                         )
@@ -121,36 +129,20 @@ class ProjectPage extends StatelessWidget {
                                       data.docs[index]['title'],
                                       style: Theme.of(context)
                                           .textTheme
-                                          .titleMedium!
+                                          .titleLarge!
                                           .copyWith(
-                                              color: kDeepBlue,
+                                              color: Colors.white,
                                               fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
                                     ),
                                     Text(
                                       data.docs[index]['subtitle'],
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodySmall!
-                                          .copyWith(color: kDeepBlue),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        'Progress',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(color: kDeepBlue),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    const LinearProgressIndicator(
-                                      backgroundColor: Colors.white,
-                                      value: 0.5,
-                                      valueColor:
-                                          AlwaysStoppedAnimation(kDarkBlue),
+                                          .bodyMedium!
+                                          .copyWith(color: Colors.white54),
                                     ),
                                   ],
                                 ),

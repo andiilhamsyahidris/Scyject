@@ -51,6 +51,7 @@ class _HomepageState extends State<Homepage> {
                   if (snapshot.hasData) {
                     final data = snapshot.data!;
                     return GridView.builder(
+                      controller: ScrollController(keepScrollOffset: true),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2),
@@ -71,7 +72,15 @@ class _HomepageState extends State<Homepage> {
                                   vertical: 25.0, horizontal: 15.0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: kSmoothBlue,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    kDeepBlue,
+                                    kDarkBlue,
+                                    kVeryDarkBlue,
+                                  ],
+                                ),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +94,7 @@ class _HomepageState extends State<Homepage> {
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodySmall!
-                                            .copyWith(color: kDeepBlue),
+                                            .copyWith(color: Colors.white54),
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -95,12 +104,26 @@ class _HomepageState extends State<Homepage> {
                                               .doc(data.docs[index]['id']);
 
                                           docProject.delete();
+                                          const snackBar = SnackBar(
+                                            content: Text(
+                                              'Data berhasil dihapus',
+                                              style: TextStyle(
+                                                  color: Colors.black87),
+                                            ),
+                                            backgroundColor: kYellow,
+                                            duration:
+                                                Duration(milliseconds: 2000),
+                                          );
+
+                                          ScaffoldMessenger.of(context)
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(snackBar);
                                         },
                                         padding: EdgeInsets.zero,
                                         constraints: const BoxConstraints(),
                                         icon: const Icon(
                                           Icons.delete,
-                                          color: kDeepBlue,
+                                          color: Colors.white,
                                           size: 15,
                                         ),
                                       )
@@ -110,36 +133,20 @@ class _HomepageState extends State<Homepage> {
                                     data.docs[index]['title'],
                                     style: Theme.of(context)
                                         .textTheme
-                                        .titleMedium!
+                                        .titleLarge!
                                         .copyWith(
-                                            color: kDeepBlue,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.w500),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
                                   ),
                                   Text(
                                     data.docs[index]['subtitle'],
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodySmall!
-                                        .copyWith(color: kDeepBlue),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'Progress',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(color: kDeepBlue),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  const LinearProgressIndicator(
-                                    backgroundColor: Colors.white,
-                                    value: 0.5,
-                                    valueColor:
-                                        AlwaysStoppedAnimation(kDarkBlue),
+                                        .bodyMedium!
+                                        .copyWith(color: Colors.white54),
                                   ),
                                 ],
                               ),
